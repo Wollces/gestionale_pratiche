@@ -31,11 +31,17 @@ if( $risultati -> num_rows > 0 ) {
   <div class="contenuto">
     <h1 class="display-3">Corso di:</h1>
     <h1 class="display-3 text-uppercase fw-semibold"><?php echo $riga['corso']; ?></h1>
-        <p class="fs-1"><?php echo $riga['documenti']; ?></p>
-        <p class="fs-5">Corso di: <?php echo $riga['nome_utente']; ?></p>
-        <p class="fs-5">Supervisionato da: <?php echo $riga['nome_responsabile']; ?></p>
-        <p class="fs-5">Stato della pratica:
-          <?php 
+
+    <div class="mb-4">
+      <a href="download_doc.php?path=<?php echo $riga['documenti']?>&id=<?php echo $riga['id_pratica'] ?>" class="download-documento fs-2 text-secondary">
+        Download Documento
+      </a>
+    </div>
+
+    <p class="fs-5">Corso di: <?php echo $riga['email_utente']; ?></p>
+    <p class="fs-5">Supervisionato da: <?php echo $riga['nome_responsabile']; ?></p>
+    <p class="fs-5">Stato della pratica:
+      <?php 
 
           if($riga['stato_pratica'] == 1){
             echo 'Presa in Carica';

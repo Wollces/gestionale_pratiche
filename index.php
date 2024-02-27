@@ -1,9 +1,13 @@
 <?php 
 include_once 'inc/functions.php';
+include_once 'inc/db.config.php';
+
+logout();
 get_header("Home");
-$_SESSION['login'] = false;
-$_SESSION['error'] = '';
-$_SESSION['mex'] = '';
+
+crea_pratiche($conn);
+crea_utenti($conn);
+
 ?>
 
     <main>

@@ -5,7 +5,15 @@ session_start();
 $nome_utente = $_POST['username-login'];
 $password = $_POST['password-login'];
 
-$sql = "SELECT psw FROM utenti WHERE username = ? ";
+$info_utente = array(
+    "conn" => $conn,
+    "email"=> $email_responsabile,
+    "password"=> $password
+);
+
+crea_utente($info_utente);
+
+$sql = "SELECT * FROM utenti WHERE email = ? ";
 
 $stmt = $conn -> prepare($sql);
 $stmt -> bind_param('s', $nome_utente);
@@ -21,7 +29,8 @@ if($results->num_rows > 0){
     $password = $password . AUTH_SALT;
 
     if ( password_verify($password, $row['psw']) ) {
-        $_SESSION['login'] = true;
+        $_SESSION['login'] = $row['privilegi'];
+        $_SESSION['email'] = $row['email'];
         unset($row['psw']);
         unset($password);
         $stmt->close();
