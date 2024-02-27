@@ -1,8 +1,8 @@
 <?php 
 include_once 'inc/db.config.php';
-session_start();
+include_once 'inc/functions.php';
 
-$nome_utente = $_POST['username-login'];
+$email_responsabile = $_POST['username-login'];
 $password = $_POST['password-login'];
 
 $info_utente = array(
@@ -16,7 +16,7 @@ crea_utente($info_utente);
 $sql = "SELECT * FROM utenti WHERE email = ? ";
 
 $stmt = $conn -> prepare($sql);
-$stmt -> bind_param('s', $nome_utente);
+$stmt -> bind_param('s', $email_responsabile);
 
 if($stmt->execute() === false){
     die("Errore" . $stmt->error);
@@ -41,7 +41,7 @@ if($results->num_rows > 0){
         $_SESSION['error'] = "Credenziali non valide.";
         $stmt->close();
         $conn->close();
-        header('location: login_registrazione.php');
+        header('location: login_admin.php');
         exit;
     }
 }
@@ -49,9 +49,6 @@ else{
     $_SESSION['error'] = "Credenziali non valide.";
     $stmt->close();
     $conn->close();
-    header('location: login_registrazione.php');
+    header('location: login_admin.php');
     exit;
 }
-
-$stmt->close();
-$conn->close();

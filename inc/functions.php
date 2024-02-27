@@ -2,6 +2,8 @@
 
 require_once 'config.php';
 
+session_start();
+
 function get_header( $title = "Titolo Generico" ) {
 
     include_once APP_DIR . '/template/header.php';
@@ -13,6 +15,23 @@ function get_footer( $credits = "Crediti Generici" ) {
 
     include_once APP_DIR . '/template/footer.php';
 
+}
+
+function crea_pratiche($conn){
+    $sql = 'CREATE TABLE IF NOT EXISTS pratiche (
+        id_pratica INT(4) AUTO_INCREMENT PRIMARY KEY,
+        corso VARCHAR(255) NOT NULL,
+        documenti TEXT NOT NULL,
+        nome_utente VARCHAR(255) NOT NULL,
+        nome_responsabile VARCHAR(255),
+        stato_pratica INT(4) NOT NULL,
+        data_registrazione TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )';
+    $stmt = $conn->prepare($sql);
+        
+    if ( $stmt -> execute() === FALSE ) {
+        die('Non è stato possibile creare la tabella pratiche ' . $stmt -> error );
+    };
 }
 
 function crea_pratiche($conn){

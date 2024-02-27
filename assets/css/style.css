@@ -2,9 +2,29 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 
-button {
+input::placeholder{
+    color: rgba(128, 128, 128, 0.6) !important;
+}
+
+button{
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+}
+
+input, select  {
+    border: 1px grey solid !important;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2) !important;
+}
+
+#logo, button, #profilo {
     transition: all 0.3s !important;
+}
+
+footer a, .download-documento, #profilo-form {
+    transition: all 0.2s !important;
+}
+
+button:hover, #logo:hover, #profilo:hover{
+    transform: scale(1.05);
 }
 
 header button a {
@@ -13,26 +33,45 @@ header button a {
     text-decoration: none;
 }
 
+#profilo{
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.35);
+    border-radius: 100%;
+    cursor: pointer !important;
+}
+
+#profilo-form {
+    width: clamp(25rem, 30vw, 35rem) !important;
+    background-color: #d0f9ff !important;
+}
+
+#profilo-form{
+    border: 1px solid black;
+    padding-block: 3rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#X {
+    top: -3rem;
+    right: -2.5rem;
+    padding: 1rem;
+    cursor: pointer;
+}
+
 main button a {
     padding: 1.25rem 2rem !important;
     color: white;
     text-decoration: none;
 }
 
-#logo{
-    transition: all 0.3s !important;
-}
-
-button:hover, #logo:hover{
-    transform: scale(1.05);
-}
-
-.min-height{
-    min-height: calc(100vh - 164px);
+.container2 {
+    max-width: 90% !important;
+    margin-inline: auto !important;
 }
 
 .cover-text, .cover, .row img{
-    border-radius: 15px ;
+    border-radius: 15px !important;
 }
 
 .row button{
@@ -50,14 +89,72 @@ button:hover, #logo:hover{
     opacity: 0.7;
 }
 
-#login form {
-    width: 40%;
+.download-documento:hover {
+    color: #0d6efd !important;
 }
 
 .viewport-20 {
     width: 20vw;
 }
 
-footer{
+#doc-img{
+    width: 3rem;
+}
+
+footer div{
     height: 5rem;
+}
+
+footer a:hover{
+    color: rgb(200, 200, 200) !important;
+}
+
+.my-alert{
+    min-width: 15rem !important;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.opacity {
+    animation: opacity 1s linear 3s 1 normal forwards;
+}
+
+@keyframes opacity {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.min-height{
+    min-height: calc(100vh - 164px);
+}
+
+/* small screen */
+@media screen and (max-width: 768px) {
+    .responsive-form {
+        max-width: 90vw !important;
+        min-width: 85vw !important;
+    }
+
+    #login-profile, #logo {
+        margin-inline: auto !important;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .responsive-form {
+        max-width: 40vw !important;
+        min-width: 35vw !important;
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .responsive-form {
+        max-width: 28vw !important;
+        min-width: 20vw !important;
+    }
 }

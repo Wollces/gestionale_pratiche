@@ -5,15 +5,17 @@ get_header("Login");
 ?>
 
 <main id="login" class="text-dark">
+
     <?php if($_SESSION['mex'] != '' ) :?>
-        <div class="alert alert-succes mx-auto viewport-20" role="alert"><?php echo $_SESSION['mex']; ?></div>
+        <div class="my-alert opacity alert alert-success mx-auto viewport-20 position-fixed" role="alert"><?php echo $_SESSION['mex']; ?></div>
     <?php $_SESSION['mex'] = ''; endif; ?>
-    <?php if($_SESSION['error'] != '' ) :?>
-        <div class="alert alert-danger mx-auto viewport-20" role="alert"><?php echo $_SESSION['error']; ?></div>
-    <?php $_SESSION['error'] = ''; endif; ?>
+    <?php if(isset($_SESSION['error']) ) :?>
+        <div class="my-alert opacity alert alert-danger mx-auto viewport-20 position-fixed" role="alert"><?php echo $_SESSION['error']; ?></div>
+    <?php unset($_SESSION['error']); endif; ?>
+
     <section class="min-height d-flex justify-content-between align-items-center container w-50">
         <form action="registrazione.php" method="POST">
-            <h1 class="fs-1">Register</h1>
+            <h1 class="fs-1">Registrati</h1>
             <div class="mb-3">
                 <label for="email-register" class="form-label">Email address</label>
                 <input type="email" name="email-register" class="form-control" id="email-register" aria-describedby="emailHelp">

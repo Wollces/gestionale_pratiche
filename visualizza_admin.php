@@ -1,9 +1,9 @@
 <?php
 
-include_once 'inc/config.php';
 include_once 'inc/db.config.php';
 include_once 'inc/functions.php';
-get_header("Admin - Visualizza");
+
+get_header("Visualizza - Admin");
 
 if($_SESSION['login'] == false)
 {
@@ -23,64 +23,80 @@ $risultati = $stmt -> get_result();
 
 if( $risultati -> num_rows > 0 ) { ?>
 
-<main class="site-content min-height">
+<main class="site-content min-height container2">
 
-    <div class="container py-5">
+  <?php if(isset($_SESSION['error']) ) :?>
+      <div class="my-alert text-center opacity alert alert-danger mx-auto viewport-20 position-fixed" role="alert"><?php echo $_SESSION['error']; ?></div>
+  <?php unset($_SESSION['error']); endif; ?>
 
-    <table class="table">
-  <thead>
-    <tr class="text-center">
-      <th scope="col">ID pratica</th>
-      <th scope="col">Corso</th>
-      <th scope="col">Documenti</th>
-      <th scope="col">Nome utente</th>
-      <th scope="col">Responsabile pratica</th>
-      <th scope="col">Stato pratica</th>
-      <th scope="col">Data</th>
-      <th scope="col">Gestione</th>
-    </tr>
-  </thead>
-  <tbody>
+  <?php if(isset($_SESSION['mex']) ) :?>
+      <div class="my-alert text-center opacity alert alert-success mx-auto viewport-20 position-fixed" role="alert"><?php echo $_SESSION['mex']; ?></div>
+  <?php unset($_SESSION['mex']); endif; ?>
 
-  <?php while ( $riga = $risultati -> fetch_assoc() ) : ?>
+  <h1 class="display-4 fw-semibold text-center py-5">Pratiche registrate</h1>
+  
+  <div class="table-responsive">
 
-
-    <tr class="text-center">
-      <th scope="row" class="pt-3"><?php echo $riga['id_pratica'];?></th>
-      <td class="pt-3"><?php echo $riga['corso']; ?></td>
-      <td class="pt-3"><?php echo $riga['email_utente']; ?></td>
-      
-      <td class="pt-3">
-        <?php 
-        if($riga['nome_responsabile']){
-          echo $riga['nome_responsabile']; }
-          else{
-            echo "Non assegnato";
-          }?></td>
-      <td class="pt-3">
+    <table class="table table-striped table-hover mb-5">
+      <thead>
+        <tr class="fs-5 text-center">
+          <th scope="col">ID</th>
+          <th scope="col">Corso</th>
+          <th scope="col">Utente</th>
+          <th scope="col">Responsabile</th>
+          <th scope="col">Stato pratica</th>
+          <th scope="col">Data Registrazione</th>
+          <th scope="col">Documenti</th>
+          <th scope="col">Gestione</th>
+        </tr>
+      </thead>
+      <tbody>
+  
+    <?php while ( $riga = $risultati -> fetch_assoc() ) : ?>
+  
+      <tr class="text-center">
+        <th scope="row" class="pt-3"><?php echo $riga['id_pratica'];?></th>
+        <td class="pt-3"><?php echo $riga['corso']; ?></td>
+        <td class="pt-3"><?php echo $riga['email_utente']; ?></td>
         
-        <?php 
-        if($riga['stato_pratica'] == 1){
-          echo 'Presa in Carica';
-        } elseif($riga['stato_pratica'] == 2){
-          echo 'In Lavorazione';
-        } elseif($riga['stato_pratica'] == 3){
-          echo 'Completata';
-        } else {echo "Error"; }; ?>
-
-      </td>
-      <td><?php echo $riga['data_registrazione']; ?></td>
-      <td class="text-center">
-        <a href="admin/visualizza.php?idpratiche=<?php echo $riga['id_pratica']; ?>" class="btn btn-success">VISUALIZZA</a>
-        <a href="admin/cancella.php?idpratiche=<?php echo $riga['id_pratica']; ?>" class="btn btn-danger">CANCELLA</a> 
-        <a href="admin/form_aggiorna_pratica.php?idpratiche=<?php echo $riga['id_pratica']; ?>" class="btn btn-warning mt-2">AGGIORNA</a>
-      </td>
-    </tr>
-
-    <?php endwhile; ?>
-   
-    </tbody>
-</table>
+        <td class="pt-3">
+          <?php 
+          if($riga['nome_responsabile']){
+            echo $riga['nome_responsabile']; }
+            else{
+              echo "Non assegnato";
+            }?></td>
+        <td class="pt-3">
+          
+          <?php 
+          if($riga['stato_pratica'] == 1){
+            echo 'Presa in Carica';
+          } elseif($riga['stato_pratica'] == 2){
+            echo 'In Lavorazione';
+          } elseif($riga['stato_pratica'] == 3){
+            echo 'Completata';
+          } else {echo "Error"; }; ?>
+  
+        </td>
+        <td class="pt-3"><?php echo $riga['data_registrazione']; ?></td>
+        <td>
+          <a href="admin/download_doc.php?path=<?php echo $riga['documenti']?>&id=0" class="text-dark download-documento">
+            <img src="assets/documents.png" id="doc-img" alt="Documento">
+            Download
+          </a>
+        </td>
+        <td class="text-center">
+          <a href="admin/visualizza.php?idpratica=<?php echo $riga['id_pratica']; ?>" class="btn btn-success mt-1">VISUALIZZA</a>
+          <a href="admin/cancella.php?idpratica=<?php echo $riga['id_pratica']; ?>" class="btn btn-danger mx-1 mt-1">CANCELLA</a> 
+          <!-- <a href="admin/form_aggiorna_pratica.php?idpratica=<?php // echo $riga['id_pratica']; ?>" class="btn btn-warning mt-1">AGGIORNA</a> -->
+        </td>
+      </tr>
+  
+      <?php endwhile; ?>
+     
+      </tbody>
+  </table>
+  </div>
 
 
 </main>

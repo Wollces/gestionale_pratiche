@@ -1,8 +1,14 @@
 <?php
-// ini_set('display_errors', 1);
-// error_reporting(E_ALL);
 
 include_once '../inc/db.config.php';
+include_once '../send_mail.php';
+include_once '../inc/functions.php';
+
+if($_SESSION['login'] == false)
+{
+    header('location: ../index.php');
+    exit;
+}
 
 $id = $_POST['id'];
 $corso = $_POST['aggiorna-corso'];
@@ -27,12 +33,29 @@ if(!empty($_FILES['documenti']['name']))
 
     elimina_file('../' . $riga['documenti']);
     $documenti = $fileDestinazioneDatabase;
+    if(!empty($_FILES['documenti']['name']))
+{
+    include_once '../upload_doc.php';
+    $sql = "SELECT documenti FROM pratiche WHERE id_pratica=?";
+
+    $stmt = $conn -> prepare($sql);
+    $stmt->bind_param("i", $id);
+
+    if ($stmt -> execute() === FALSE ) {
+        die('NON POSSO LEGGERE LE PRATICHE NEL DATABASE' . $stmt -> error);
+    };
+
+    $risultati = $stmt -> get_result();
+    $riga = $risultati -> fetch_assoc();
+
+    elimina_file('../' . $riga['documenti']);
+    $documenti = $fileDestinazioneDatabase;
     $sql = "UPDATE pratiche SET corso=?, documenti=?, email_utente=?, nome_responsabile=?, stato_pratica=?  WHERE id_pratica=?";
 
-$stmt = $conn -> prepare( $sql );
-if ($stmt === FALSE) {
-    die('Error preparing statement: ' . $conn->error);
-}
+    $stmt = $conn -> prepare( $sql );
+    if ($stmt === FALSE) {
+        die('Error preparing statement: ' . $conn->error);
+    }
 
     $stmt -> bind_param('ssssii', $corso, $documenti, $email_utente, $nome_responsabile, $stato_pratica, $id);
 }
